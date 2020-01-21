@@ -52,3 +52,75 @@ func setupAppleSignInButton()
      authorizationController.performRequests()
 }
 ```
+
+**3. Authorization Completion Handler**
+
+```swift
+func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization)
+{
+     switch authorization.credential { 
+     
+     case let credentials as ASAuthorizationAppleIDCredential:
+          DispatchQueue.main.async {
+          
+          print(“################“)
+          print(“User ID: \(credentials.user)")
+          print(“Email: \(credentials.email!)")
+          print(“First Name: \(credentials.fullName!.givenName!)”)
+          print(“Last Name: \(credentials.fullName!.familyName!)")
+          print(“################“)
+          }
+            
+     case let credentials as ASPasswordCredential:
+            DispatchQueue.main.async {
+            
+            print(“################“)
+            print(“User ID: \(credentials.user)")
+            print(“Password: \(credentials.password)")
+            print(“################“)
+            }
+            
+     default :
+             DispatchQueue.main.async {
+             
+             print(“################“)
+             print(“Something went wrong! Try again.”)
+             print(“################“)
+             }
+     break
+    }
+ }
+```
+
+**4. Check Apple SignIn Status**
+
+```swift
+func checkStatusOfAppleSignIn() 
+{
+     let appleIDProvider = ASAuthorizationAppleIDProvider()
+     appleIDProvider.getCredentialState(forUserID: "\(UserDefaults.standard.value(forKey: "User_AppleID")!)") { (credentialState, error) in
+     
+     switch credentialState {
+     
+     case .authorized:
+          // Do your things.
+          break
+      
+      default:
+           break
+          }
+       }
+}
+```
+
+This is it! You can easily put this code in your project and test it! But, If you want proper code with handling and display urser's data. Click to **Clone or Download** and check our code.
+
+# License
+
+This line of codes are avaialble for public use by [**9Brainz**](https://www.9brainz.com). If you have any doubts or query regarding this code or any particular topic reagrding iOS Application development, Feel free to [**Contact Us**](https://9brainz.com/contact-us.html).
+
+# Helpful!!
+
+Is this demo helpful for your project? OR Reducing tiny bit of work in your project?
+Let us know about it 🔥🔥🔥
+
