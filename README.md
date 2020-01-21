@@ -19,3 +19,36 @@ Sign in with Apple makes it easy for users to sign in to your apps and websites 
 # How it Works?
 
 You just need to download this demo and run it in REAL device. OR Just copy and paste code from ViewController.swift file into your projects and access it!
+
+# Quick Use
+
+Open your ViewController.swift file and Follow below steps:
+
+**1. Setup Apple SignIn Button**
+
+```swift
+func setupAppleSignInButton()
+{
+     let objASAuthorizationAppleIDButton = ASAuthorizationAppleIDButton()
+     objASAuthorizationAppleIDButton.frame = CGRect(x: 20, y: (UIScreen.main.bounds.size.height - 70), width: (UIScreen.main.bounds.size.width - 40), height: 50)
+     objASAuthorizationAppleIDButton.addTarget(self, action: #selector(actionHandleAppleSignin), for: .touchUpInside)
+     self.view.addSubview(objASAuthorizationAppleIDButton)
+}
+```
+
+**2. Button Click Action Handler**
+
+```swift
+@objc func actionHandleAppleSignin()
+{
+     let appleIDProvider = ASAuthorizationAppleIDProvider()
+     
+     let request = appleIDProvider.createRequest()
+     request.requestedScopes = [.fullName, .email]
+     
+     let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+     authorizationController.delegate = self
+     authorizationController.presentationContextProvider = self     
+     authorizationController.performRequests()
+}
+```
